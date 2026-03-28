@@ -5,7 +5,7 @@ import {
   ChevronRight, Activity, Calendar, Award, Zap, Sparkles,
   Palette, Printer, MessageSquare, X, Send, PenTool, Share2,
   Link as LinkIcon, RefreshCw, Search, Trophy, ArrowUp,
-  Milestone, Rocket, History, Command
+  Milestone, Rocket, History, Command, Key
 } from 'lucide-react';
 
 // Özel Github İkonu
@@ -93,12 +93,12 @@ const getLanguageGradient = (language) => {
 // --- API & UTILS ---
 const GITHUB_API_BASE = 'https://api.github.com/users';
 const DEVTO_API_BASE = 'https://dev.to/api/articles?username=';
-const apiKey = "AIzaSyARYKix29zwgajan9QSUxnQDyIqA24-VtA"; // Kendi API anahtarınızı ekleyin
 
-const callGemini = async (prompt) => {
-  if (!apiKey) return null;
+// YENİ: apiKey parametresi fonksiyona dışarıdan geliyor.
+const callGemini = async (prompt, userApiKey) => {
+  if (!userApiKey) return null;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userApiKey}`;
   const payload = {
     contents: [{ parts: [{ text: prompt }] }]
   };
@@ -115,7 +115,7 @@ const callGemini = async (prompt) => {
       
       if (!response.ok) {
         if (response.status === 400 || response.status === 401 || response.status === 403) {
-           console.warn(`Gemini API Auth/Request Error (${response.status}). AI devre dışı bırakıldı.`);
+           console.warn(`Gemini API Auth/Request Error (${response.status}). Geçersiz veya eksik API anahtarı. AI devre dışı bırakıldı.`);
            return null;
         }
         throw new Error(`API Request Failed with status ${response.status}`);
@@ -221,7 +221,6 @@ const analyzeData = (profile, repos) => {
 
 // --- BİLEŞENLER ---
 
-// 1. YENİLİK: 3D Holografik Kart (Tilt Effect)
 const TiltCard = ({ children, className }) => {
   const cardRef = useRef(null);
   const [style, setStyle] = useState({});
@@ -258,7 +257,6 @@ const TiltCard = ({ children, className }) => {
   );
 };
 
-// 2. YENİLİK: Matrix Easter Egg
 const MatrixRain = () => {
   const canvasRef = useRef(null);
 
@@ -541,7 +539,6 @@ const PortfolioTemplate = ({ data, onRefresh }) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 }); 
   const [isStatsVisible, setIsStatsVisible] = useState(false);
   const [isMatrixMode, setIsMatrixMode] = useState(false); 
   
@@ -617,12 +614,9 @@ const PortfolioTemplate = ({ data, onRefresh }) => {
   const handlePrint = () => window.print();
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // YENİ: DİNAMİK URL OLUŞTURUCU (Paylaş Butonu İçin)
   const handleShare = () => {
-    // Sadece localhost:5173 değil, site.com/?user=kullanici_adi şeklinde link oluşturur
     const shareUrl = `${window.location.origin}${window.location.pathname}?user=${profile.login}`;
     
-    // Panoya kopyalama işlemi
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(shareUrl);
     } else {
@@ -1195,17 +1189,21 @@ export default function App() {
   const [appState, setAppState] = useState('landing'); 
   const [username, setUsername] = useState('');
   const [devToUser, setDevToUser] = useState('');
+  
+  // YENİ: Gemini API Anahtarı için State eklendi
+  const [apiKey, setApiKey] = useState('');
+  
   const [logs, setLogs] = useState([]);
   const [portfolioData, setPortfolioData] = useState(null);
 
-  // YENİ: URL'den parametre okuma (Paylaşılan linki otomatik açabilmek için)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sharedUser = params.get('user');
     
     if (sharedUser) {
       setUsername(sharedUser);
-      // Animasyonları daha tatlı gösterebilmek için hafif bir gecikme ekliyoruz
+      // Not: Eğer ziyaretçi linkten geliyorsa API anahtarı olmadan (AI kısımları eksik) 
+      // profili görmek isteyebilir. Bu durumda sistem çökmez, standart verileri çeker.
       setTimeout(() => {
         handleGenerate(null, sharedUser);
       }, 800); 
@@ -1247,7 +1245,7 @@ export default function App() {
     }
 
     setLogs([`> npx devportfolio ${currentUsername} --theme=developer ${currentDevTo ? `--blog=${currentDevTo}` : ''}`]);
-    await addLog(`[INFO] Initializing DevPortfolio Engine v10.0.0 (Production Edition)...`, 200);
+    await addLog(`[INFO] Initializing DevPortfolio Engine v10.1.0 (Secure Edition)...`, 200);
     await addLog(`[NETWORK] Fetching profile data for @${currentUsername} from GitHub REST API...`, 200);
     
     const { profile, repos, error } = await fetchGitHubData(currentUsername);
@@ -1274,35 +1272,50 @@ export default function App() {
     const analyzedData = analyzeData(profile, repos);
     
     await addLog(`[SUCCESS] Extracted primary languages: ${analyzedData.topLanguages.slice(0,3).join(', ')}...`, 200);
-    await addLog(`[AI ENGINE] Applying Smart Ranking Algorithm...`, 200);
-    await addLog(`[GEMINI API] Biyografi ve projeler yapay zeka ile optimize ediliyor...`, 200);
     
-    const bioPrompt = `Write a short, professional, and engaging 2-sentence developer bio for a GitHub user named ${profile.name || profile.login}. They specialize in ${analyzedData.topLanguages.join(', ')} and have a total of ${analyzedData.stats.totalStars} stars across ${analyzedData.stats.repoCount} repositories. Don't use quotes.`;
-    
-    const reposToEnhance = analyzedData.featuredProjects.filter(r => !r.description || r.description.length < 20);
-    let descPrompt = null;
-    if (reposToEnhance.length > 0) {
-      const repoListStr = reposToEnhance.map(r => `${r.name} (Language: ${r.language || 'mixed'})`).join(', ');
-      descPrompt = `Write a single, compelling 1-sentence technical description for each of these open-source projects. Return ONLY a valid JSON object where keys are the exact project names and values are the 1-sentence descriptions. Do not add markdown blocks. Projects: ${repoListStr}`;
-    }
-
-    const [aiBio, aiDescJsonStr] = await Promise.all([
-      callGemini(bioPrompt),
-      descPrompt ? callGemini(descPrompt) : Promise.resolve(null)
-    ]);
-
+    // AI ENTEGRASYONU (API Anahtarı Kontrolü ile)
+    let aiBio = null;
     let enhancedDescriptions = {};
-    if (aiDescJsonStr) {
-      try {
-        const cleanStr = (aiDescJsonStr || "{}").replace(/```json/g, '').replace(/```/g, '').trim();
-        if (cleanStr.startsWith('{') || cleanStr.startsWith('[')) {
-          enhancedDescriptions = JSON.parse(cleanStr);
-        } else {
-          console.warn("AI descriptions fallback: Geçersiz JSON yanıtı alındı:", cleanStr);
-        }
-      } catch(e) {
-        console.error("JSON parse error for AI descriptions", e);
+
+    if (apiKey) {
+      await addLog(`[AI ENGINE] Securing API Key and requesting AI enhancements...`, 200);
+      
+      const bioPrompt = `Write a short, professional, and engaging 2-sentence developer bio for a GitHub user named ${profile.name || profile.login}. They specialize in ${analyzedData.topLanguages.join(', ')} and have a total of ${analyzedData.stats.totalStars} stars across ${analyzedData.stats.repoCount} repositories. Don't use quotes.`;
+      
+      const reposToEnhance = analyzedData.featuredProjects.filter(r => !r.description || r.description.length < 20);
+      let descPrompt = null;
+      if (reposToEnhance.length > 0) {
+        const repoListStr = reposToEnhance.map(r => `${r.name} (Language: ${r.language || 'mixed'})`).join(', ');
+        descPrompt = `Write a single, compelling 1-sentence technical description for each of these open-source projects. Return ONLY a valid JSON object where keys are the exact project names and values are the 1-sentence descriptions. Do not add markdown blocks. Projects: ${repoListStr}`;
       }
+
+      // Anahtarı (apiKey) fonksiyonlara gönderiyoruz
+      const [aiBioRes, aiDescJsonStr] = await Promise.all([
+        callGemini(bioPrompt, apiKey),
+        descPrompt ? callGemini(descPrompt, apiKey) : Promise.resolve(null)
+      ]);
+
+      aiBio = aiBioRes;
+
+      if (aiDescJsonStr) {
+        try {
+          const cleanStr = (aiDescJsonStr || "{}").replace(/```json/g, '').replace(/```/g, '').trim();
+          if (cleanStr.startsWith('{') || cleanStr.startsWith('[')) {
+            enhancedDescriptions = JSON.parse(cleanStr);
+          }
+        } catch(e) {
+          console.error("JSON parse error for AI descriptions", e);
+        }
+      }
+      
+      if (aiBio || Object.keys(enhancedDescriptions).length > 0) {
+        await addLog(`[SUCCESS] Yapay zeka içerikleri başarıyla oluşturuldu!`, 200);
+      } else {
+        await addLog(`[WARN] AI generation failed. Using default descriptions.`, 200);
+      }
+
+    } else {
+      await addLog(`[WARN] No Gemini API key provided. Skipping AI enhancements...`, 200);
     }
 
     analyzedData.featuredProjects = analyzedData.featuredProjects.map(repo => {
@@ -1312,7 +1325,6 @@ export default function App() {
       return { ...repo, aiDescription: repo.description || "An advanced software project.", aiEnhanced: false };
     });
 
-    await addLog(`[SUCCESS] Yapay zeka içerikleri başarıyla oluşturuldu!`, 200);
     await addLog(`[BUILD] Compiling Next.js App Router project...`, 300);
     await addLog(`[MODULE] Activating Interactive Bash Terminal...`, 200);
     await addLog(`[SUCCESS] Portfolio generated successfully!`, 300);
@@ -1359,7 +1371,7 @@ export default function App() {
           <div className="flex-1 text-center lg:text-left mt-10 lg:mt-0">
             <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-sm shadow-xl backdrop-blur-sm">
               <Sparkles className="w-4 h-4 text-emerald-400" />
-              <span className="text-slate-400">DevPortfolio <span className="text-emerald-500 font-mono font-semibold">v10.0 Production</span></span>
+              <span className="text-slate-400">DevPortfolio <span className="text-emerald-500 font-mono font-semibold">v10.1 Secure Edition</span></span>
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
@@ -1368,13 +1380,13 @@ export default function App() {
             </h1>
             
             <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Instantly transform your GitHub repositories into a breathtaking, interactive portfolio. No coding required. Connect your Dev.to blog and let AI write your story.
+              Instantly transform your GitHub repositories into a breathtaking, interactive portfolio. Bring your own Gemini API key and let AI write your story securely.
             </p>
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm font-medium text-slate-500">
+              <span className="flex items-center gap-2"><Key className="w-4 h-4 text-yellow-500" /> Secure BYOK</span>
               <span className="flex items-center gap-2"><Activity className="w-4 h-4 text-cyan-500" /> 3D Tilt Cards</span>
-              <span className="flex items-center gap-2"><Palette className="w-4 h-4 text-purple-500" /> Auto Routing</span>
-              <span className="flex items-center gap-2"><Zap className="w-4 h-4 text-yellow-500" /> Matrix Easter Egg</span>
+              <span className="flex items-center gap-2"><Zap className="w-4 h-4 text-emerald-500" /> Matrix Easter Egg</span>
             </div>
           </div>
 
@@ -1386,7 +1398,7 @@ export default function App() {
                 <Terminal className="w-5 h-5 text-emerald-400" /> Initialize Project
               </h3>
               
-              <form onSubmit={handleGenerate} className="flex flex-col gap-5">
+              <form onSubmit={handleGenerate} className="flex flex-col gap-4">
                 <div className="relative flex items-center group/input">
                   <GithubIcon className="absolute left-4 w-5 h-5 text-slate-500 group-focus-within/input:text-emerald-400 transition-colors" />
                   <input
@@ -1412,9 +1424,29 @@ export default function App() {
                   />
                 </div>
 
+                {/* YENİ: GÜVENLİ API ANAHTARI ALANI */}
+                <div className="mt-2">
+                  <div className="relative flex items-center group/input">
+                    <Key className="absolute left-4 w-5 h-5 text-slate-500 group-focus-within/input:text-yellow-400 transition-colors" />
+                    <input
+                      type="password"
+                      placeholder="Gemini API Key (For AI Features)"
+                      value={apiKey}
+                      onChange={(e) => setApiKey(e.target.value)}
+                      aria-label="Gemini API Anahtarınız"
+                      className="w-full bg-[#111] border border-white/5 rounded-xl py-4 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500 transition-all shadow-inner cursor-text"
+                    />
+                  </div>
+                  <div className="text-right mt-1.5">
+                    <a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noreferrer" className="text-xs text-slate-500 hover:text-yellow-400 transition-colors">
+                      Get your free API key →
+                    </a>
+                  </div>
+                </div>
+
                 <button
                   type="submit"
-                  className="mt-4 w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 py-4 font-bold text-lg rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:-translate-y-1 flex items-center justify-center gap-2 cursor-pointer"
+                  className="mt-2 w-full bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 py-4 font-bold text-lg rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:-translate-y-1 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Generate Portfolio <ChevronRight className="w-5 h-5" />
                 </button>
