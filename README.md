@@ -40,7 +40,7 @@ Running the project locally on your computer is very simple:
 
   1. Clone the repository to your computer:
   
-    git clone https://github.com/Can-Ozan/devportfolio.git
+    git clone https://github.com/Can-Ozan/Devportfolio.git
 
   2. Go to the project directory:
   
