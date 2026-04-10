@@ -94,16 +94,29 @@ const getLanguageGradient = (language) => {
 const GITHUB_API_BASE = 'https://api.github.com/users';
 const DEVTO_API_BASE = 'https://dev.to/api/articles?username=';
 
-// YENİ: apiKey parametresi fonksiyona dışarıdan geliyor.
-const callGemini = async (prompt, userApiKey) => {
-  if (!userApiKey) return null;
+const fetchDevToArticles = async (username) => {
+  try {
+    const res = await fetch(`${DEVTO_API_BASE}${username}`);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (err) {
+    console.error("DevTo Error:", err);
+    return [];
+  }
+};
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userApiKey}`;
+const callGemini = async (prompt, userApiKey, addLog) => {
+  // YENİ: Kullanıcı yanlışlıkla boşluk kopyaladıysa otomatik temizler
+  const cleanKey = userApiKey ? userApiKey.trim() : '';
+  if (!cleanKey) return null;
+
+  // DÜZELTME: Google'ın en stabil ve ücretsiz sürümü gemini-1.5-flash'a geri dönüldü
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
   const payload = {
     contents: [{ parts: [{ text: prompt }] }]
   };
   
-  const delays = [1000, 2000, 4000];
+  const delays = [1000, 2000]; // Bekleme süresi kısaltıldı
   
   for (let i = 0; i <= delays.length; i++) {
     try {
@@ -114,9 +127,18 @@ const callGemini = async (prompt, userApiKey) => {
       });
       
       if (!response.ok) {
-        if (response.status === 400 || response.status === 401 || response.status === 403) {
-           console.warn(`Gemini API Auth/Request Error (${response.status}). Geçersiz veya eksik API anahtarı. AI devre dışı bırakıldı.`);
+        const errData = await response.json().catch(() => ({}));
+        // Google'ın gönderdiği Orijinal İngilizce Hata Mesajını yakalar
+        const errMsg = errData.error?.message || response.statusText;
+        
+        // 400 (Bad Request) veya 403 (Forbidden) ise boşuna tekrar denemeyi bırakır
+        if (response.status === 400 || response.status === 403) {
+           if (addLog) await addLog(`[ERROR] API Reddedildi (${response.status}). Sebep: ${errMsg}`, 100);
            return null;
+        }
+        
+        if (addLog && i === delays.length) {
+           await addLog(`[ERROR] Gemini API Hatası: ${errMsg}`, 100);
         }
         throw new Error(`API Request Failed with status ${response.status}`);
       }
@@ -125,7 +147,9 @@ const callGemini = async (prompt, userApiKey) => {
       return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || null;
     } catch (err) {
       if (i === delays.length) {
-        console.warn("Gemini API Bağlantı Hatası:", err);
+        if (addLog && !err.message.includes('status 400') && !err.message.includes('status 403')) {
+            await addLog(`[ERROR] Yapay Zeka Bağlantı Hatası: ${err.message}`, 100);
+        }
         return null;
       }
       await new Promise(resolve => setTimeout(resolve, delays[i]));
@@ -426,7 +450,7 @@ const InteractiveTerminal = ({ profile, topLanguages, stats, theme, onMatrixTrig
         break;
       case 'matrix':
         response = 'Wake up, Neo... The Matrix has you.';
-        onMatrixTrigger(); // Easter Egg Tetikleyici!
+        onMatrixTrigger(); 
         break;
       default:
         response = `command not found: ${cmd}`;
@@ -783,7 +807,7 @@ const PortfolioTemplate = ({ data, onRefresh }) => {
 
       </section>
 
-      <section className="py-12 border-y border-white/5 bg-white/[0.02] print:border-y-slate-200 print:bg-transparent relative z-10 backdrop-blur-md">
+      <section ref={statsRef} className="py-12 border-y border-white/5 bg-white/[0.02] print:border-y-slate-200 print:bg-transparent relative z-10 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
             <div className="text-sm font-semibold text-slate-500 print:text-slate-800 uppercase tracking-wider mb-6">
@@ -910,7 +934,7 @@ const PortfolioTemplate = ({ data, onRefresh }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map(repo => (
             <TiltCard key={repo.id} className="h-full">
-              <div className="group bg-white/[0.02] backdrop-blur-xl border border-white/10 print:border-slate-300 rounded-3xl overflow-hidden hover:border-white/20 transition-colors flex flex-col h-full animate-in fade-in zoom-in duration-300 cursor-pointer">
+              <div onClick={() => window.open(repo.html_url, '_blank')} className="group bg-white/[0.02] backdrop-blur-xl border border-white/10 print:border-slate-300 rounded-3xl overflow-hidden hover:border-white/20 transition-colors flex flex-col h-full animate-in fade-in zoom-in duration-300 cursor-pointer">
                 
                 <div className={`h-36 w-full bg-gradient-to-br ${getLanguageGradient(repo.language)} relative flex items-center justify-center print:hidden overflow-hidden`}>
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
@@ -1189,10 +1213,7 @@ export default function App() {
   const [appState, setAppState] = useState('landing'); 
   const [username, setUsername] = useState('');
   const [devToUser, setDevToUser] = useState('');
-  
-  // YENİ: Gemini API Anahtarı için State eklendi
   const [apiKey, setApiKey] = useState('');
-  
   const [logs, setLogs] = useState([]);
   const [portfolioData, setPortfolioData] = useState(null);
 
@@ -1202,8 +1223,6 @@ export default function App() {
     
     if (sharedUser) {
       setUsername(sharedUser);
-      // Not: Eğer ziyaretçi linkten geliyorsa API anahtarı olmadan (AI kısımları eksik) 
-      // profili görmek isteyebilir. Bu durumda sistem çökmez, standart verileri çeker.
       setTimeout(() => {
         handleGenerate(null, sharedUser);
       }, 800); 
@@ -1229,10 +1248,12 @@ export default function App() {
     
     const currentDevTo = devToUser.trim();
     
-    const cacheKey = `devportfolio_v10_${currentUsername}_${currentDevTo}`;
+    // DÜZELTME: Cache mantığı ve versiyon tamamen değiştirildi (v13)
+    const cacheKey = `devportfolio_v13_${currentUsername}_${currentDevTo}`;
     const cachedData = localStorage.getItem(cacheKey);
 
-    if (cachedData) {
+    // EĞER KULLANICI API KEY GİRMİŞSE CACHE'İ KESİNLİKLE KULLANMA VE YENİDEN ÜRET!
+    if (cachedData && !apiKey) {
       setLogs([`> npx devportfolio ${currentUsername} --theme=developer ${currentDevTo ? `--blog=${currentDevTo}` : ''}`]);
       await addLog(`[CACHE] Önceki oturumdan veriler bulundu. Hızlı yükleniyor...`, 300);
       await addLog(`[SUCCESS] Portfolyo önbellekten saniyeler içinde geri yüklendi!`, 300);
@@ -1245,7 +1266,7 @@ export default function App() {
     }
 
     setLogs([`> npx devportfolio ${currentUsername} --theme=developer ${currentDevTo ? `--blog=${currentDevTo}` : ''}`]);
-    await addLog(`[INFO] Initializing DevPortfolio Engine v10.1.0 (Secure Edition)...`, 200);
+    await addLog(`[INFO] Initializing DevPortfolio Engine v13.0.0 (Secure Edition)...`, 200);
     await addLog(`[NETWORK] Fetching profile data for @${currentUsername} from GitHub REST API...`, 200);
     
     const { profile, repos, error } = await fetchGitHubData(currentUsername);
@@ -1273,7 +1294,6 @@ export default function App() {
     
     await addLog(`[SUCCESS] Extracted primary languages: ${analyzedData.topLanguages.slice(0,3).join(', ')}...`, 200);
     
-    // AI ENTEGRASYONU (API Anahtarı Kontrolü ile)
     let aiBio = null;
     let enhancedDescriptions = {};
 
@@ -1289,10 +1309,9 @@ export default function App() {
         descPrompt = `Write a single, compelling 1-sentence technical description for each of these open-source projects. Return ONLY a valid JSON object where keys are the exact project names and values are the 1-sentence descriptions. Do not add markdown blocks. Projects: ${repoListStr}`;
       }
 
-      // Anahtarı (apiKey) fonksiyonlara gönderiyoruz
       const [aiBioRes, aiDescJsonStr] = await Promise.all([
-        callGemini(bioPrompt, apiKey),
-        descPrompt ? callGemini(descPrompt, apiKey) : Promise.resolve(null)
+        callGemini(bioPrompt, apiKey, addLog),
+        descPrompt ? callGemini(descPrompt, apiKey, addLog) : Promise.resolve(null)
       ]);
 
       aiBio = aiBioRes;
@@ -1346,7 +1365,7 @@ export default function App() {
 
   const handleRefreshCache = () => {
     if(!portfolioData) return;
-    const cacheKey = `devportfolio_v10_${portfolioData.profile.login}_${devToUser}`;
+    const cacheKey = `devportfolio_v13_${portfolioData.profile.login}_${devToUser}`;
     localStorage.removeItem(cacheKey);
     setAppState('landing'); 
   };
@@ -1371,7 +1390,7 @@ export default function App() {
           <div className="flex-1 text-center lg:text-left mt-10 lg:mt-0">
             <div className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-sm shadow-xl backdrop-blur-sm">
               <Sparkles className="w-4 h-4 text-emerald-400" />
-              <span className="text-slate-400">DevPortfolio <span className="text-emerald-500 font-mono font-semibold">v10.1 Secure Edition</span></span>
+              <span className="text-slate-400">DevPortfolio <span className="text-emerald-500 font-mono font-semibold">v13.0 Secure Edition</span></span>
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
@@ -1424,7 +1443,6 @@ export default function App() {
                   />
                 </div>
 
-                {/* YENİ: GÜVENLİ API ANAHTARI ALANI */}
                 <div className="mt-2">
                   <div className="relative flex items-center group/input">
                     <Key className="absolute left-4 w-5 h-5 text-slate-500 group-focus-within/input:text-yellow-400 transition-colors" />
