@@ -1,71 +1,135 @@
-DevPortfolio AI is a next-generation web application that creates an AI-powered, interactive, 3D-animated, and futuristic portfolio for you in seconds—simply by entering your GitHub username.
+# Devportfolio
 
-Without having to write a single line of code, your GitHub repositories, profile data, and Dev.to articles are automatically fetched, analyzed by Google Gemini AI, and presented through a breathtaking “Glassmorphism” interface.
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Devportfolio**, modern yazılım geliştiriciler için tasarlanmış, performans odaklı, SEO dostu ve tamamen özelleştirilebilir bir portfolyo şablonudur. Minimalist tasarımı, akıcı animasyonları ve kullanıcı dostu arayüzü ile teknik yeteneklerinizi ve projelerinizi en profesyonel şekilde sergilemenize olanak tanır.
 
-✨ Why DevPortfolio AI?
+---
 
-While a designer might ask, “How good does it look?”, this project is built to answer the question a software engineer might ask: “How does it work under the hood?”:
+## 📑 İçindekiler
 
-🤖 Artificial Intelligence (Gemini 2.5 API): Your portfolios are analyzed to automatically generate a personalized professional biography and one-sentence “AI-Enhanced” descriptions for your open-source projects.
+- [✨ Özellikler](#-özellikler)
+- [🛠 Teknoloji Yığını](#-teknoloji-yığını)
+- [🏗 Mimari Yapı](#-mimari-yapı)
+- [⚙️ Kurulum](#-kurulum)
+- [🚀 Kullanım](#-kullanım)
+- [📸 Ekran Görüntüleri](#-ekran-görüntüleri)
+- [🤝 Katkıda Bulunma](#-katkıda-bulunma)
+- [📄 Lisans](#-lisans)
+- [📧 İletişim](#-iletişim)
 
-⚡ Ultra Performance: Smooth animations at 60 frames per second (60fps) using LocalStorage caching, Debounce (search), Throttling (scroll optimization), and requestAnimationFrame.
+---
 
-🪟 Premium Glassmorphism UI: Glass effects, blurred (backdrop-blur) backgrounds, neon light leaks, and a futuristic tech grid (Cyber Grid).
+## ✨ Özellikler
 
-🎲 3D Holographic Cards: A 3D tilt effect that adjusts based on your mouse angle when hovering over project cards.
+- 📱 **Tam Responsive Tasarım:** Mobil, tablet ve masaüstü cihazlarla %100 uyumlu.
+- 🌙 **Dark/Light Mode:** Dahili tema desteği ile kullanıcı tercihine göre otomatik veya manuel geçiş.
+- ⚡ **Yüksek Performans:** Next.js Server Components ve optimize edilmiş görseller ile ışık hızında yükleme süreleri.
+- 🎨 **Akıcı Animasyonlar:** Framer Motion ile güçlendirilmiş, kullanıcıyı yormayan mikro etkileşimler.
+- 🔍 **SEO Optimizasyonu:** Dinamik meta etiketleri, OpenGraph desteği ve semantic HTML yapısı.
+- 📊 **Proje Galerisi:** Detaylı filtreleme ve şık kart tasarımları ile projelerinizi sergileyin.
+- 📧 **İletişim Formu:** EmailJS veya özel API entegrasyonu için hazır form yapısı.
 
-🖱️ Custom Hacker Cursor: A neon cursor that follows your mouse across the page and grows when hovering over interactive elements.
+---
 
-🔗 Dynamic URL Sharing: Share your site as yoursite.com/?user=yourGitHubUsername. When visitors click, your portfolio automatically loads and displays on the screen.
+## 🛠 Teknoloji Yığını
 
-🖨️ PDF Export & Quick Contact: Instantly convert your portfolio into a sleek PDF with a single click, or let your visitors send you an email right away.
+| Teknoloji | Açıklama |
+| :--- | :--- |
+| **Framework** | [Next.js 15](https://nextjs.org/) (App Router) |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) |
+| **Animation** | [Framer Motion](https://www.framer.com/motion/) |
+| **Icons** | [Lucide React](https://lucide.dev/) |
+| **Type Safety** | [TypeScript](https://www.typescriptlang.org/) |
+| **Content** | JSON based data structure |
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---
 
-🎮 Easter Eggs (Hidden Features)
+## 🏗 Mimari Yapı
 
-This portfolio doesn’t just look good—it talks to you!
+Proje, modern atomik tasarım prensiplerini ve Next.js App Router mimarisini takip eder. Veriler merkezi bir yapıdan (JSON veya CMS) çekilerek bileşenlere dağıtılır.
 
-1. Interactive Terminal: The terminal in the middle of the page isn’t just for show. Click on it, type the commands `whoami`, `skills`, `stats`, or `help`, and press Enter!
+```mermaid
+graph TD
+    A[Kullanıcı Tarayıcısı] --> B{Next.js App Router}
+    B --> C[Layout - Navbar/Footer]
+    B --> D[Pages - Home/Projects/Blog]
+    D --> E[Bileşenler - UI Components]
+    E --> F[Framer Motion Animations]
+    D --> G[Veri Katmanı - Constants/JSON]
+    G --> H[Proje Detayları]
+    G --> I[Yetenekler/Tecrübe]
+    B --> J[SEO & Meta Verileri]
+```
 
-2. Matrix Mode: When you go to the terminal, type the “matrix” command and hit Enter, and the background completely transforms into the code rain from the movie “The Matrix.”
+---
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## ⚙️ Kurulum
 
-🚀 Local Development
+Projeyi yerel ortamınızda çalıştırmak için aşağıdaki adımları takip edin:
 
-Running the project locally on your computer is very simple:
+1. **Depoyu klonlayın:**
+   ```bash
+   git clone https://github.com/Can-Ozan/Devportfolio.git
+   cd Devportfolio
+   ```
 
-  1. Clone the repository to your computer:
-  
-    git clone https://github.com/Can-Ozan/Devportfolio.git
+2. **Bağımlılıkları yükleyin:**
+   ```bash
+   npm install
+   # veya
+   yarn install
+   # veya
+   pnpm install
+   ```
 
-  2. Go to the project directory:
-  
-    cd devportfolio
+3. **Çevresel değişkenleri ayarlayın:**
+   `.env.example` dosyasını `.env.local` olarak kopyalayın ve gerekli alanları doldurun.
 
-  3. Install the required dependencies:
+4. **Geliştirme sunucusunu başlatın:**
+   ```bash
+   npm run dev
+   ```
+   Tarayıcınızda `http://localhost:3000` adresine gidin.
 
-    npm install
+---
 
-  4. API Configuration: Add your own Google Gemini API key to the `apiKey` variable in the `src/App.jsx` file.
-  </br>
+## 🚀 Kullanım
 
-  5. Start the development server:
+Portfolyoyu kendinize göre özelleştirmek oldukça basittir:
 
-    npm run dev
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+- **Kişisel Bilgiler:** `src/constants/data.ts` (veya benzeri) dosyasını açarak isminizi, biyografinizi ve sosyal medya linklerinizi güncelleyin.
+- **Projeler:** `projects` dizisi altındaki verileri kendi projelerinizle değiştirin. Görselleri `public/projects` klasörüne ekleyin.
+- **Yetenekler:** Teknik yeteneklerinizi ve sertifikalarınızı ilgili JSON objesi içinden düzenleyin.
 
-🌍 Deployment
+---
 
-  This project has been optimized to go live on Vercel in a matter of seconds (production-ready).
+## 🤝 Katkıda Bulunma
 
-1. Go to the Vercel dashboard and import your GitHub repository.
+Topluluğun katkıları bu projeyi daha da ileriye taşıyacaktır. Katkıda bulunmak isterseniz:
 
-2. Vite will be automatically detected as the framework.
+1. Bu depoyu **Fork** edin.
+2. Yeni bir **Feature Branch** oluşturun (`git checkout -b feature/yeniOzellik`).
+3. Değişikliklerinizi **Commit** edin (`git commit -m 'Add: Harika bir özellik eklendi'`).
+4. Branch'inizi **Push** edin (`git push origin feature/yeniOzellik`).
+5. Bir **Pull Request** oluşturun.
 
-3. Click the Deploy button. (No other settings are required!)
+---
 
-    
+## 📄 Lisans
+
+Bu proje **MIT Lisansı** altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına göz atabilirsiniz.
+
+---
+
+## 📧 İletişim
+
+Can Ozan - [@GitHub](https://github.com/Can-Ozan)
+
+Proje Bağlantısı: [https://github.com/Can-Ozan/Devportfolio](https://github.com/Can-Ozan/Devportfolio)
+
+---
+*Bu README dosyası bir startup vizyonuyla, geliştirici deneyimi ön planda tutularak hazırlanmıştır.*
