@@ -1,268 +1,386 @@
-# Devportfolio: Full-Stack Developer Portfolio 🚀
+# DevPortfolio: A Full-Stack Personal Portfolio Application 🚀
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Frontend: React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
-[![Backend: Node.js](https://img.shields.io/badge/Backend-Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Framework: Express.js](https://img.shields.io/badge/Framework-Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![Database: MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Containerization: Docker](https://img.shields.io/badge/Containerization-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
-
-Devportfolio is a modern, full-stack developer portfolio application designed to elegantly showcase your projects, skills, and professional experience. Built with a robust MERN stack (MongoDB, Express.js, React, Node.js) and fully containerized with Docker, it provides a seamless and scalable platform for developers to present their work to the world.
-
-This project emphasizes a clean, responsive user interface combined with a secure and efficient backend, complete with administrative capabilities for content management.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://opensource.org/licenses/MIT)
+[![Frontend: React](https://img.shields.io/badge/Frontend-React.js-61DAFB?style=plastic&logo=react)](https://react.dev/)
+[![Backend: Node.js](https://img.shields.io/badge/Backend-Node.js-339933?style=plastic&logo=node.js)](https://nodejs.org/)
+[![Framework: Express.js](https://img.shields.io/badge/Framework-Express.js-000000?style=plastic&logo=express)](https://expressjs.com/)
+[![Database: MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?style=plastic&logo=mongodb)](https://www.mongodb.com/)
+[![Deployment: Docker](https://img.shields.io/badge/Deployment-Docker-2496ED?style=plastic&logo=docker)](https://www.docker.com/)
 
 ## Table of Contents 📖
 
-*   [Features ✨](#features-%e2%9c%a8)
-*   [Tech Stack 🚀](#tech-stack-%f0%9f%9a%80)
-*   [Architecture 🏗️](#architecture-%f0%9f%8f%97%ef%b8%8f)
-*   [Getting Started 🏁](#getting-started-%f0%9f%8f%81)
+*   [About The Project](#about-the-project-)
+*   [Features ✨](#features-)
+*   [Tech Stack 🛠️](#tech-stack-%EF%B8%8F)
+*   [Architecture 🏗️](#architecture-%EF%B8%8F)
+    *   [System Design](#system-design)
+    *   [Detailed Explanation](#detailed-explanation)
+*   [Getting Started 🚀](#getting-started-%EF%B8%8F)
     *   [Prerequisites](#prerequisites)
-    *   [Environment Variables](#environment-variables)
-    *   [Installation with Docker (Recommended)](#installation-with-docker-recommended)
-    *   [Manual Installation](#manual-installation)
-        *   [Backend Setup](#backend-setup)
-        *   [Frontend Setup](#frontend-setup)
-*   [REST API Endpoints 🌐](#rest-api-endpoints-%f0%9f%8c%90)
-*   [Contributing Guidelines 🤝](#contributing-guidelines-%f0%9f%a4%9d)
-*   [License 📄](#license-%f0%9f%93%84)
-*   [Contact 📧](#contact-%f0%9f%93%a7)
+    *   [Local Installation](#local-installation)
+        *   [1. Clone the Repository](#1-clone-the-repository)
+        *   [2. Environment Variables](#2-environment-variables)
+        *   [3. Backend Setup](#3-backend-setup)
+        *   [4. Frontend Setup](#4-frontend-setup)
+    *   [Docker Installation (Recommended)](#docker-installation-recommended)
+        *   [1. Docker Prerequisites](#1-docker-prerequisites)
+        *   [2. Create Dockerfiles](#2-create-dockerfiles)
+        *   [3. Create docker-compose.yml](#3-create-docker-composeyml)
+        *   [4. Build and Run with Docker Compose](#4-build-and-run-with-docker-compose)
+*   [REST API Endpoints 🌐](#rest-api-endpoints-%EF%B8%8F)
+*   [Usage 💡](#usage-)
+*   [Contributing 🤝](#contributing-%EF%B8%8F)
+*   [License 📄](#license-%EF%B8%8F)
+*   [Contact 📧](#contact-%EF%B8%8F)
+
+---
+
+## About The Project 📝
+
+DevPortfolio is a robust, full-stack personal portfolio application designed to showcase your projects, skills, and professional experience in an elegant and interactive manner. Built with the MERN (MongoDB, Express.js, React.js, Node.js) stack, it provides a dynamic and responsive platform for developers to present their work to potential employers and collaborators.
+
+This project emphasizes a clean architecture, maintainability, and scalability, making it an excellent foundation for anyone looking to establish a strong online presence. It includes features like dynamic project display, a dedicated skills section, and a functional contact form to facilitate communication.
+
+---
 
 ## Features ✨
 
-*   **Dynamic Project Showcase:** Display your projects with images, descriptions, links, and technologies used.
-*   **Comprehensive Skill Listing:** Highlight your technical proficiencies across various domains.
-*   **Responsive Design:** A beautiful and functional user interface that adapts to any screen size.
-*   **Contact Form:** Allow visitors to send you messages directly.
-*   **Admin Panel (Authentication):** Securely manage projects, skills, and messages via an authenticated dashboard.
-*   **RESTful API:** A well-structured API for seamless data interaction between frontend and backend.
-*   **Dockerized Deployment:** Easy setup and deployment using Docker and Docker Compose.
+*   **Dynamic Project Display**: Showcase your projects with images, descriptions, and links to live demos or repositories.
+*   **Comprehensive Skills Section**: Highlight your technical proficiencies with categorized skill sets.
+*   **Interactive Contact Form**: Allow visitors to send messages directly to your email via a secure backend service.
+*   **Responsive Design**: Optimized for various screen sizes, ensuring a seamless experience on desktop, tablet, and mobile devices.
+*   **Client-Side Routing**: Smooth navigation between different sections of the portfolio without full page reloads.
+*   **Backend API**: A RESTful API to manage projects, skills, and contact messages.
+*   **Database Integration**: Persistent storage for portfolio data using MongoDB.
+*   **Dockerized Deployment**: Containerized setup for easy deployment and scalability (example configuration provided).
 
-## Tech Stack 🚀
+---
 
-Devportfolio leverages a modern and powerful technology stack to deliver a robust and scalable application.
+## Tech Stack 🛠️
 
-**Frontend:**
-*   **React.js:** A declarative, component-based JavaScript library for building user interfaces.
-*   **React Router:** For declarative routing within the React application.
-*   **Axios:** Promise-based HTTP client for making API requests.
-*   **Tailwind CSS (or similar):** A utility-first CSS framework for rapid UI development.
+The DevPortfolio project leverages a modern and powerful technology stack:
 
-**Backend:**
-*   **Node.js:** A JavaScript runtime built on Chrome's V8 JavaScript engine.
-*   **Express.js:** A fast, unopinionated, minimalist web framework for Node.js.
-*   **Mongoose:** An elegant MongoDB object modeling tool for Node.js.
-*   **JSON Web Tokens (JWT):** For secure user authentication and authorization.
-*   **Bcrypt.js:** For hashing passwords securely.
+*   **Frontend**:
+    *   [React.js](https://react.dev/) - A JavaScript library for building user interfaces.
+    *   [React Router DOM](https://reactrouter.com/en/main) - Declarative routing for React.
+    *   [Axios](https://axios-http.com/) - Promise-based HTTP client for the browser and Node.js.
+    *   [Framer Motion](https://www.framer.com/motion/) - A production-ready motion library for React.
+    *   [React Icons](https://react-icons.github.io/react-icons/) - Popular icons as React components.
+    *   [Sass](https://sass-lang.com/) - CSS pre-processor for enhanced styling.
+*   **Backend**:
+    *   [Node.js](https://nodejs.org/) - JavaScript runtime environment.
+    *   [Express.js](https://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js.
+    *   [Mongoose](https://mongoosejs.com/) - MongoDB object data modeling (ODM) for Node.js.
+    *   [Nodemailer](https://nodemailer.com/)- Module for Node.js applications to allow easy email sending.
+    *   [CORS](https://www.npmjs.com/package/cors) - Node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
+    *   [Dotenv](https://www.npmjs.com/package/dotenv) - Loads environment variables from a `.env` file.
+*   **Database**:
+    *   [MongoDB](https://www.mongodb.com/) - A NoSQL document database.
+*   **Deployment/Containerization**:
+    *   [Docker](https://www.docker.com/) - Platform for developing, shipping, and running applications in containers.
 
-**Database:**
-*   **MongoDB:** A NoSQL document database, providing high performance, high availability, and easy scalability.
-
-**Containerization:**
-*   **Docker:** Platform for developing, shipping, and running applications in containers.
-*   **Docker Compose:** Tool for defining and running multi-container Docker applications.
+---
 
 ## Architecture 🏗️
 
-The Devportfolio application follows a typical three-tier architecture, separating the concerns of presentation, business logic, and data storage. This design promotes modularity, scalability, and maintainability.
+The DevPortfolio project follows a classic client-server architecture, specifically a MERN stack setup, where the frontend (React.js) consumes a RESTful API provided by the backend (Node.js/Express.js), which in turn interacts with a MongoDB database.
+
+### System Design
 
 ```mermaid
 graph TD
-    A["User/Client Browser"] --> B["Frontend (React.js)"]
-    B -- "HTTP/HTTPS Requests" --> C["Backend (Node.js/Express.js)"]
-    C -- "MongoDB Driver (Mongoose)" --> D["MongoDB Database"]
-    C -- "Authentication (JWT)" --> B
-    D -- "Data Persistence" --> C
+    A["User"] --> B["Web Browser"];
+    B --> C["Client (React.js Application)"];
+    C -- "HTTP/HTTPS Requests (API Calls)" --> D["Server (Node.js / Express.js API)"];
+    D -- "CRUD Operations" --> E["Database (MongoDB)"];
+    E -- "Data Retrieval/Storage" --> D;
+    D -- "API Responses (JSON)" --> C;
+    C -- "Render UI" --> B;
 ```
 
-**Components:**
+### Detailed Explanation
 
-1.  **Client (User/Browser):** The end-user interacts with the application through their web browser.
-2.  **Frontend (React.js):**
-    *   Built with React, this layer is responsible for rendering the user interface, handling user interactions, and making API calls to the backend.
-    *   It consumes data from the backend API and displays it in a user-friendly format.
-    *   Manages client-side routing and state.
-3.  **Backend (Node.js/Express.js):**
-    *   Acts as the application's API server, handling all business logic.
-    *   Receives requests from the frontend, processes them, interacts with the database, and sends back appropriate responses.
-    *   Manages user authentication and authorization using JWT.
-    *   Defines RESTful API endpoints for projects, skills, messages, and authentication.
-4.  **Database (MongoDB):**
-    *   A NoSQL database used for storing all application data, including projects, skills, contact messages, and user information.
-    *   Accessed by the backend via Mongoose, an ODM (Object Data Modeling) library for Node.js.
+1.  **Client (Frontend)**:
+    *   The frontend is a Single Page Application (SPA) built with React.js.
+    *   It's responsible for rendering the user interface, handling user interactions, and displaying portfolio content.
+    *   It communicates with the backend API using `axios` to fetch data (projects, skills) and send data (contact messages).
+    *   React Router DOM manages client-side navigation, providing a smooth user experience.
+    *   Styling is handled using Sass, allowing for modular and maintainable CSS.
 
-**Interaction Flow:**
+2.  **Server (Backend API)**:
+    *   The backend is a RESTful API developed with Node.js and the Express.js framework.
+    *   It acts as the intermediary between the client and the database.
+    *   **Routes**: Defines API endpoints (e.g., `/api/projects`, `/api/skills`, `/api/contact`) that the client can access.
+    *   **Controllers**: Contains the business logic for handling incoming requests, interacting with the database, and preparing responses.
+    *   **Models**: Utilizes Mongoose to define schemas for MongoDB collections (e.g., `Project`, `Skill`, `Contact`), providing an object-oriented interface for database operations.
+    *   **Security**: Implements CORS middleware to manage cross-origin requests, ensuring secure communication between the client and server.
+    *   **Email Service**: Integrates Nodemailer to handle sending contact form submissions as emails.
 
-*   The **User** interacts with the **Frontend** through their web browser.
-*   The **Frontend** sends HTTP requests (GET, POST, PUT, DELETE) to the **Backend** to fetch or manipulate data.
-*   The **Backend** processes these requests, performs necessary business logic, and communicates with the **MongoDB Database** to store or retrieve data.
-*   The **Backend** then sends a response back to the **Frontend**, which updates the UI accordingly.
-*   Authentication is handled by the **Backend** issuing JWTs to the **Frontend** upon successful login, which are then used for subsequent authenticated requests.
+3.  **Database**:
+    *   MongoDB is used as the NoSQL database to store all application data.
+    *   It stores collections for `projects`, `skills`, and `contact messages`.
+    *   Mongoose provides a robust way to define data structures and interact with MongoDB from the Node.js backend.
 
-## Getting Started 🏁
+4.  **Communication Flow**:
+    *   When a user interacts with the React frontend (e.g., navigates to the projects page, submits a contact form), the React application sends an HTTP request to the Express.js backend.
+    *   The Express.js server receives the request, processes it (e.g., queries the MongoDB database via Mongoose, sends an email via Nodemailer), and sends back an HTTP response, typically in JSON format.
+    *   The React frontend then receives this JSON data and updates the UI accordingly.
 
-Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
+This decoupled architecture allows for independent development and scaling of the frontend and backend components, enhancing flexibility and maintainability.
+
+---
+
+## Getting Started 🚀
+
+To get a local copy up and running, follow these simple steps. You can choose between a standard local installation or a Dockerized setup.
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
+Ensure you have the following installed on your system:
 
-*   **Git:** For cloning the repository.
-    *   [Download Git](https://git-scm.com/downloads)
-*   **Node.js & npm (or Yarn):** For running the backend and frontend manually.
-    *   [Download Node.js](https://nodejs.org/en/download/) (includes npm)
-*   **Docker & Docker Compose:** **Highly recommended** for a streamlined setup.
-    *   [Download Docker Desktop](https://www.docker.com/products/docker-desktop) (includes Docker Compose)
-*   **MongoDB:** If you choose not to use Docker for the database, you'll need a local or hosted MongoDB instance.
-    *   [Download MongoDB Community Server](https://www.mongodb.com/try/download/community)
+*   [Node.js](https://nodejs.org/en/download/) (LTS version recommended)
+*   [npm](https://www.npmjs.com/get-npm) (comes with Node.js) or [Yarn](https://yarnpkg.com/getting-started/install)
+*   [MongoDB](https://www.mongodb.com/try/download/community) (local installation or a cloud service like MongoDB Atlas)
+*   [Git](https://git-scm.com/downloads)
 
-### Environment Variables
+### Local Installation
 
-Both the frontend and backend require specific environment variables to function correctly. Create `.env` files in the respective directories (`backend/.env` and `frontend/.env`) and populate them based on the provided `.env.example` files.
+#### 1. Clone the Repository
 
-**`backend/.env` example:**
+```bash
+git clone https://github.com/Can-Ozan/Devportfolio.git
+cd Devportfolio
+```
+
+#### 2. Environment Variables
+
+Create a `.env` file in both the `server/` and `client/` directories based on the examples below.
+
+**`server/.env` example:**
 
 ```env
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/devportfolio
-JWT_SECRET=your_jwt_secret_key
+MONGO_URI=mongodb://localhost:27017/devportfolio # Or your MongoDB Atlas URI
+EMAIL_USER=your_email@example.com
+EMAIL_PASS=your_email_password # Or app-specific password for Gmail/Outlook
+CLIENT_URL=http://localhost:3000
 ```
 
-**`frontend/.env` example:**
+**`client/.env` example:**
 
 ```env
-REACT_APP_API_URL=http://localhost:5000/api
+REACT_APP_SERVER_URL=http://localhost:5000/api
 ```
 
-**Note:** When using Docker Compose, the `MONGO_URI` for the backend will typically refer to the MongoDB service name defined in `docker-compose.yml` (e.g., `mongodb://mongodb:27017/devportfolio`).
+#### 3. Backend Setup
 
-### Installation with Docker (Recommended)
+Navigate to the `server` directory, install dependencies, and start the server.
 
-This is the easiest way to get the entire application stack running.
+```bash
+cd server
+npm install # or yarn install
+npm start   # or yarn start
+```
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/Can-Ozan/Devportfolio.git
-    cd Devportfolio
-    ```
+The backend server will typically run on `http://localhost:5000`.
 
-2.  **Create `.env` files:**
-    *   Navigate to the `backend` directory and create a `.env` file based on `backend/.env.example`.
-        *   For `MONGO_URI`, use `mongodb://mongodb:27017/devportfolio` as `mongodb` is the service name defined in `docker-compose.yml`.
-    *   Navigate to the `frontend` directory and create a `.env` file based on `frontend/.env.example`.
-        *   For `REACT_APP_API_URL`, use `http://localhost:5000/api` (or the port your backend container is exposed on).
+#### 4. Frontend Setup
 
-3.  **Build and run the Docker containers:**
-    ```bash
-    docker-compose up --build
-    ```
-    This command will:
-    *   Build the Docker images for both the frontend and backend services.
-    *   Start the MongoDB container.
-    *   Start the backend container, connecting to MongoDB.
-    *   Start the frontend container, connecting to the backend.
+Open a new terminal, navigate to the `client` directory, install dependencies, and start the React development server.
 
-4.  **Access the application:**
-    *   **Frontend:** Open your browser and navigate to `http://localhost:3000` (or the port specified in your `docker-compose.yml` for the frontend).
-    *   **Backend API:** The backend API will be accessible at `http://localhost:5000/api` (or the port specified).
+```bash
+cd client
+npm install # or yarn install
+npm start   # or yarn start
+```
 
-### Manual Installation
+The frontend application will typically run on `http://localhost:3000`.
 
-If you prefer to run the frontend and backend separately without Docker, follow these steps. Ensure you have Node.js, npm/yarn, and a running MongoDB instance.
+---
 
-#### Backend Setup
+### Docker Installation (Recommended) 🐳
 
-1.  **Navigate to the backend directory:**
-    ```bash
-    cd Devportfolio/backend
-    ```
+For a more consistent and isolated development/production environment, you can containerize the application using Docker.
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
+#### 1. Docker Prerequisites
 
-3.  **Create `.env` file:**
-    *   Create a `.env` file based on `backend/.env.example`.
-    *   Ensure `MONGO_URI` points to your local or hosted MongoDB instance (e.g., `mongodb://localhost:27017/devportfolio`).
+*   [Docker Desktop](https://www.docker.com/products/docker-desktop/) (includes Docker Engine and Docker Compose)
 
-4.  **Start the backend server:**
-    ```bash
-    npm start
-    # or
-    yarn start
-    ```
-    The backend server will start on the port specified in your `.env` file (default: `5000`).
+#### 2. Create Dockerfiles
 
-#### Frontend Setup
+Create a `Dockerfile` for the client and server applications in their respective directories.
 
-1.  **Navigate to the frontend directory:**
-    ```bash
-    cd Devportfolio/frontend
-    ```
+**`client/Dockerfile`:**
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
+```dockerfile
+# Stage 1: Build the React application
+FROM node:18-alpine AS build
+WORKDIR /app
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install --frozen-lockfile
+COPY . ./
+RUN yarn build
 
-3.  **Create `.env` file:**
-    *   Create a `.env` file based on `frontend/.env.example`.
-    *   Ensure `REACT_APP_API_URL` points to your running backend API (e.g., `http://localhost:5000/api`).
+# Stage 2: Serve the React application with Nginx
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
 
-4.  **Start the frontend development server:**
-    ```bash
-    npm start
-    # or
-    yarn start
-    ```
-    The frontend application will open in your browser at `http://localhost:3000` (default for Create React App).
+**`server/Dockerfile`:**
+
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install --frozen-lockfile
+COPY . ./
+EXPOSE 5000
+CMD ["node", "index.js"]
+```
+
+#### 3. Create `docker-compose.yml`
+
+Create a `docker-compose.yml` file in the root directory of your project (`Devportfolio/`). This file will define and link the services (client, server, database).
+
+**`docker-compose.yml`:**
+
+```yaml
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: devportfolio-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - devportfolio-network
+
+  server:
+    build: ./server
+    container_name: devportfolio-server
+    environment:
+      # Ensure these match your server/.env, but are passed to Docker
+      PORT: 5000
+      MONGO_URI: mongodb://mongodb:27017/devportfolio # 'mongodb' is the service name
+      EMAIL_USER: your_email@example.com
+      EMAIL_PASS: your_email_password
+      CLIENT_URL: http://localhost:3000 # Or http://client:80 if accessing via Docker network
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    networks:
+      - devportfolio-network
+    # Optional: Mount source code for live reloads during development
+    # volumes:
+    #   - ./server:/app
+    #   - /app/node_modules
+
+  client:
+    build: ./client
+    container_name: devportfolio-client
+    environment:
+      # Ensure these match your client/.env, but are passed to Docker
+      REACT_APP_SERVER_URL: http://server:5000/api # 'server' is the service name
+    ports:
+      - "3000:80" # Map host port 3000 to container's port 80 (Nginx default)
+    depends_on:
+      - server
+    networks:
+      - devportfolio-network
+    # Optional: Mount source code for live reloads during development
+    # volumes:
+    #   - ./client:/app
+    #   - /app/node_modules
+
+volumes:
+  mongodb_data:
+
+networks:
+  devportfolio-network:
+    driver: bridge
+```
+
+**Important Notes for Docker Environment Variables:**
+
+*   For `MONGO_URI` in `server`'s `docker-compose.yml`, use `mongodb://mongodb:27017/devportfolio`. `mongodb` refers to the service name defined in `docker-compose.yml`, allowing containers to communicate by service name within the Docker network.
+*   For `REACT_APP_SERVER_URL` in `client`'s `docker-compose.yml`, use `http://server:5000/api`. `server` refers to the service name of your backend.
+*   Remember to replace `your_email@example.com` and `your_email_password` with your actual email credentials.
+
+#### 4. Build and Run with Docker Compose
+
+From the root directory of your project (`Devportfolio/`), run the following commands:
+
+```bash
+docker-compose build
+docker-compose up -d
+```
+
+*   `docker-compose build`: This command builds the Docker images for your client and server services based on their respective `Dockerfile`s.
+*   `docker-compose up -d`: This command starts all the services defined in your `docker-compose.yml` in detached mode (in the background).
+
+Once the containers are up, the frontend will be accessible at `http://localhost:3000` and the backend API at `http://localhost:5000/api`.
+
+To stop and remove the containers:
+
+```bash
+docker-compose down
+```
+
+---
 
 ## REST API Endpoints 🌐
 
-The backend exposes a comprehensive set of RESTful API endpoints for managing portfolio data. Authentication is required for administrative actions.
+The backend provides the following RESTful API endpoints:
 
-| Method | Endpoint                    | Description                                  | Authentication |
-| :----- | :-------------------------- | :------------------------------------------- | :------------- |
-| `GET`  | `/api/projects`             | Retrieve all projects.                       | No             |
-| `GET`  | `/api/projects/:id`         | Retrieve a single project by ID.             | No             |
-| `POST` | `/api/projects`             | Create a new project.                        | Yes (Admin)    |
-| `PUT`  | `/api/projects/:id`         | Update an existing project.                  | Yes (Admin)    |
-| `DELETE`| `/api/projects/:id`         | Delete a project.                            | Yes (Admin)    |
-| `GET`  | `/api/skills`               | Retrieve all skills.                         | No             |
-| `POST` | `/api/skills`               | Add a new skill.                             | Yes (Admin)    |
-| `PUT`  | `/api/skills/:id`           | Update an existing skill.                    | Yes (Admin)    |
-| `DELETE`| `/api/skills/:id`           | Delete a skill.                              | Yes (Admin)    |
-| `POST` | `/api/messages`             | Submit a new contact message.                | No             |
-| `GET`  | `/api/messages`             | Retrieve all contact messages.               | Yes (Admin)    |
-| `DELETE`| `/api/messages/:id`         | Delete a contact message.                    | Yes (Admin)    |
-| `POST` | `/api/auth/register`        | Register a new admin user.                   | No             |
-| `POST` | `/api/auth/login`           | Authenticate and log in an admin user.       | No             |
-| `GET`  | `/api/auth/me`              | Get current authenticated user details.      | Yes            |
+| Method | Endpoint             | Description                                   | Request Body (JSON)                                       | Response (JSON)                                                              |
+| :----- | :------------------- | :-------------------------------------------- | :-------------------------------------------------------- | :--------------------------------------------------------------------------- |
+| `GET`  | `/api/projects`      | Retrieve all portfolio projects.              | `N/A`                                                     | `[{ _id, title, description, imageUrl, projectLink, codeLink, tags }]`       |
+| `GET`  | `/api/skills`        | Retrieve all skills.                          | `N/A`                                                     | `[{ _id, name, icon, category }]`                                            |
+| `POST` | `/api/contact`       | Submit a contact message.                     | `{ name: "...", email: "...", message: "..." }`           | `{ message: "Message sent successfully!" }` or `{ error: "..." }`            |
 
-## Contributing Guidelines 🤝
+---
+
+## Usage 💡
+
+After successfully setting up and running the application (either locally or with Docker):
+
+1.  Open your web browser and navigate to `http://localhost:3000`.
+2.  Explore the different sections of the portfolio: Home, About, Projects, Skills, Contact.
+3.  Use the contact form to send a test message. Check the backend server logs for confirmation or your configured email inbox.
+4.  To add or modify projects/skills, you would typically interact directly with the MongoDB database (e.g., using MongoDB Compass or a similar tool) or extend the backend with admin-specific routes.
+
+---
+
+## Contributing 🤝
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also open an issue with the tag "enhancement".
 
 1.  **Fork** the Project.
-2.  **Clone** your forked repository: `git clone https://github.com/YOUR_USERNAME/Devportfolio.git`
-3.  **Create your Feature Branch:** `git checkout -b feature/AmazingFeature`
-4.  **Commit your Changes:** `git commit -m 'Add some AmazingFeature'`
-5.  **Push to the Branch:** `git push origin feature/AmazingFeature`
-6.  **Open a Pull Request.**
+2.  **Create** your Feature Branch (`git checkout -b feature/AmazingFeature`).
+3.  **Commit** your Changes (`git commit -m 'Add some AmazingFeature'`).
+4.  **Push** to the Branch (`git push origin feature/AmazingFeature`).
+5.  **Open** a Pull Request.
 
-Please ensure your code adheres to the existing style and conventions.
+---
 
 ## License 📄
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See `LICENSE` for more information. (Note: A `LICENSE` file is typically included in the root of the repository. If not present, it's recommended to add one.)
+
+---
 
 ## Contact 📧
 
 Yusuf Can Ozan
+
+Project Link: [https://github.com/Can-Ozan/Devportfolio](https://github.com/Can-Ozan/Devportfolio)
