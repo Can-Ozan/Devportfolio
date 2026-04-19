@@ -1,386 +1,277 @@
-# DevPortfolio: A Full-Stack Personal Portfolio Application 🚀
+# 🚀 Devportfolio: A Full-Stack Developer Portfolio
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://opensource.org/licenses/MIT)
-[![Frontend: React](https://img.shields.io/badge/Frontend-React.js-61DAFB?style=plastic&logo=react)](https://react.dev/)
-[![Backend: Node.js](https://img.shields.io/badge/Backend-Node.js-339933?style=plastic&logo=node.js)](https://nodejs.org/)
-[![Framework: Express.js](https://img.shields.io/badge/Framework-Express.js-000000?style=plastic&logo=express)](https://expressjs.com/)
-[![Database: MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?style=plastic&logo=mongodb)](https://www.mongodb.com/)
-[![Deployment: Docker](https://img.shields.io/badge/Deployment-Docker-2496ED?style=plastic&logo=docker)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![NextAuth.js](https://img.shields.io/badge/NextAuth.js-FF4081?style=for-the-badge&logo=next.js&logoColor=white)](https://next-auth.js.org/)
+[![Last Commit](https://img.shields.io/github/last-commit/Can-Ozan/Devportfolio?style=for-the-badge)](https://github.com/Can-Ozan/Devportfolio/commits/main)
 
-## Table of Contents 📖
+Devportfolio is a modern, full-stack developer portfolio project designed to showcase your skills, projects, and experience in a professional and engaging manner. Built with a robust technology stack including Next.js for a powerful React frontend and API routes, Tailwind CSS for sleek styling, Prisma as an elegant ORM, PostgreSQL for reliable data storage, and NextAuth.js for secure authentication, this project provides a solid foundation for your online presence.
 
-*   [About The Project](#about-the-project-)
-*   [Features ✨](#features-)
-*   [Tech Stack 🛠️](#tech-stack-%EF%B8%8F)
-*   [Architecture 🏗️](#architecture-%EF%B8%8F)
-    *   [System Design](#system-design)
-    *   [Detailed Explanation](#detailed-explanation)
-*   [Getting Started 🚀](#getting-started-%EF%B8%8F)
-    *   [Prerequisites](#prerequisites)
-    *   [Local Installation](#local-installation)
-        *   [1. Clone the Repository](#1-clone-the-repository)
-        *   [2. Environment Variables](#2-environment-variables)
-        *   [3. Backend Setup](#3-backend-setup)
-        *   [4. Frontend Setup](#4-frontend-setup)
-    *   [Docker Installation (Recommended)](#docker-installation-recommended)
-        *   [1. Docker Prerequisites](#1-docker-prerequisites)
-        *   [2. Create Dockerfiles](#2-create-dockerfiles)
-        *   [3. Create docker-compose.yml](#3-create-docker-composeyml)
-        *   [4. Build and Run with Docker Compose](#4-build-and-run-with-docker-compose)
-*   [REST API Endpoints 🌐](#rest-api-endpoints-%EF%B8%8F)
-*   [Usage 💡](#usage-)
-*   [Contributing 🤝](#contributing-%EF%B8%8F)
-*   [License 📄](#license-%EF%B8%8F)
-*   [Contact 📧](#contact-%EF%B8%8F)
+This repository serves as a comprehensive template for developers looking to create their personalized portfolio with cutting-edge web technologies.
 
----
+## 📋 Table of Contents
 
-## About The Project 📝
+*   [✨ Features](#-features)
+*   [🛠️ Tech Stack](#️-tech-stack)
+*   [🏗️ Architecture](#️-architecture)
+*   [🚀 Getting Started](#-getting-started)
+    *   [⚙️ Prerequisites](#️-prerequisites)
+    *   [📦 Installation](#-installation)
+    *   [▶️ Running the Application](#️-running-the-application)
+*   [🌐 REST API Endpoints](#-rest-api-endpoints)
+*   [📂 Project Structure](#-project-structure)
+*   [🤝 Contributing](#-contributing)
+*   [📄 License](#-license)
+*   [📧 Contact](#-contact)
 
-DevPortfolio is a robust, full-stack personal portfolio application designed to showcase your projects, skills, and professional experience in an elegant and interactive manner. Built with the MERN (MongoDB, Express.js, React.js, Node.js) stack, it provides a dynamic and responsive platform for developers to present their work to potential employers and collaborators.
+## ✨ Features
 
-This project emphasizes a clean architecture, maintainability, and scalability, making it an excellent foundation for anyone looking to establish a strong online presence. It includes features like dynamic project display, a dedicated skills section, and a functional contact form to facilitate communication.
+Devportfolio offers a rich set of features designed to make your portfolio stand out:
 
----
+*   **Interactive Project Showcase:** Dynamically display your projects with detailed descriptions, technologies used, and links.
+*   **Skills Section:** Highlight your technical proficiencies with an organized and visually appealing list of skills.
+*   **Experience Timeline:** Present your professional journey and work experience in a clear, chronological format.
+*   **Responsive Design:** Optimized for various screen sizes, ensuring a seamless experience on desktops, tablets, and mobile devices.
+*   **Secure Authentication:** Leverages NextAuth.js for robust and flexible authentication, enabling secure content management (e.g., for the portfolio owner).
+*   **Database Integration:** Utilizes PostgreSQL via Prisma ORM for efficient and scalable data management.
+*   **Modern UI:** Crafted with Tailwind CSS for a clean, customizable, and maintainable user interface.
+*   **SEO Friendly:** Built with Next.js for server-side rendering (SSR) and static site generation (SSG) capabilities, enhancing search engine visibility.
 
-## Features ✨
+## 🛠️ Tech Stack
 
-*   **Dynamic Project Display**: Showcase your projects with images, descriptions, and links to live demos or repositories.
-*   **Comprehensive Skills Section**: Highlight your technical proficiencies with categorized skill sets.
-*   **Interactive Contact Form**: Allow visitors to send messages directly to your email via a secure backend service.
-*   **Responsive Design**: Optimized for various screen sizes, ensuring a seamless experience on desktop, tablet, and mobile devices.
-*   **Client-Side Routing**: Smooth navigation between different sections of the portfolio without full page reloads.
-*   **Backend API**: A RESTful API to manage projects, skills, and contact messages.
-*   **Database Integration**: Persistent storage for portfolio data using MongoDB.
-*   **Dockerized Deployment**: Containerized setup for easy deployment and scalability (example configuration provided).
+The Devportfolio project is built using the following core technologies:
 
----
+*   **Frontend Framework:** [Next.js](https://nextjs.org/) (React)
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+*   **Database ORM:** [Prisma](https://www.prisma.io/)
+*   **Database:** [PostgreSQL](https://www.postgresql.org/)
+*   **Authentication:** [NextAuth.js](https://next-auth.js.org/)
+*   **TypeScript:** For type-safe development.
 
-## Tech Stack 🛠️
+## 🏗️ Architecture
 
-The DevPortfolio project leverages a modern and powerful technology stack:
+The Devportfolio project follows a modern full-stack architecture, leveraging Next.js's capabilities to serve both the frontend and backend API routes.
 
-*   **Frontend**:
-    *   [React.js](https://react.dev/) - A JavaScript library for building user interfaces.
-    *   [React Router DOM](https://reactrouter.com/en/main) - Declarative routing for React.
-    *   [Axios](https://axios-http.com/) - Promise-based HTTP client for the browser and Node.js.
-    *   [Framer Motion](https://www.framer.com/motion/) - A production-ready motion library for React.
-    *   [React Icons](https://react-icons.github.io/react-icons/) - Popular icons as React components.
-    *   [Sass](https://sass-lang.com/) - CSS pre-processor for enhanced styling.
-*   **Backend**:
-    *   [Node.js](https://nodejs.org/) - JavaScript runtime environment.
-    *   [Express.js](https://expressjs.com/) - Fast, unopinionated, minimalist web framework for Node.js.
-    *   [Mongoose](https://mongoosejs.com/) - MongoDB object data modeling (ODM) for Node.js.
-    *   [Nodemailer](https://nodemailer.com/)- Module for Node.js applications to allow easy email sending.
-    *   [CORS](https://www.npmjs.com/package/cors) - Node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
-    *   [Dotenv](https://www.npmjs.com/package/dotenv) - Loads environment variables from a `.env` file.
-*   **Database**:
-    *   [MongoDB](https://www.mongodb.com/) - A NoSQL document database.
-*   **Deployment/Containerization**:
-    *   [Docker](https://www.docker.com/) - Platform for developing, shipping, and running applications in containers.
+The architecture can be broken down into several key components:
 
----
+1.  **Client (Browser):** The user's web browser interacts with the Next.js application, rendering the React components.
+2.  **Next.js Application:** This is the core of the system, acting as both the frontend renderer and the backend API server.
+    *   **Frontend Rendering:** Next.js handles server-side rendering (SSR) or static site generation (SSG) for optimal performance and SEO, delivering HTML, CSS, and JavaScript to the client.
+    *   **Next.js API Routes:** This feature allows the Next.js application to expose RESTful API endpoints. These routes are serverless functions that handle business logic, interact with the database, and manage authentication.
+3.  **NextAuth.js:** Integrated within the Next.js application, NextAuth.js provides a complete authentication solution. It handles session management, various authentication providers (e.g., Google, GitHub, credentials), and secure callback mechanisms. It communicates with external Authentication Providers for user verification.
+4.  **Prisma ORM:** An Object-Relational Mapper (ORM) that sits between the Next.js API routes and the PostgreSQL database. Prisma simplifies database interactions by allowing developers to work with a type-safe API, abstracting away raw SQL queries. It handles schema migrations and provides a powerful query builder.
+5.  **PostgreSQL Database:** The primary data store for the application. It stores all portfolio-related information, including projects, skills, experience entries, and potentially user data (if managing multiple portfolio owners).
 
-## Architecture 🏗️
+**Data Flow and Interaction:**
 
-The DevPortfolio project follows a classic client-server architecture, specifically a MERN stack setup, where the frontend (React.js) consumes a RESTful API provided by the backend (Node.js/Express.js), which in turn interacts with a MongoDB database.
-
-### System Design
+*   A user's browser sends requests to the Next.js application.
+*   For UI rendering, Next.js processes the request and serves the appropriate React components, potentially fetching initial data from its own API routes or directly from the database (via server components/getServerSideProps).
+*   For data operations (e.g., fetching projects, adding a new skill), the frontend makes API calls to the Next.js API Routes.
+*   These API Routes use Prisma Client to interact with the PostgreSQL database, performing CRUD (Create, Read, Update, Delete) operations.
+*   Authentication is handled by NextAuth.js. When a user attempts to log in, NextAuth.js redirects them to an external Authentication Provider (e.g., Google). After successful authentication, the provider redirects back to NextAuth.js, which then creates and manages a secure session for the user within the Next.js application. API routes can then check for authenticated sessions to protect sensitive operations.
 
 ```mermaid
 graph TD
-    A["User"] --> B["Web Browser"];
-    B --> C["Client (React.js Application)"];
-    C -- "HTTP/HTTPS Requests (API Calls)" --> D["Server (Node.js / Express.js API)"];
-    D -- "CRUD Operations" --> E["Database (MongoDB)"];
-    E -- "Data Retrieval/Storage" --> D;
-    D -- "API Responses (JSON)" --> C;
-    C -- "Render UI" --> B;
+    A["Client (Browser)"] --> B["Next.js Application (Frontend)"];
+    B --> C["Next.js API Routes (Backend)"];
+    C --> D["Prisma ORM"];
+    D --> E["PostgreSQL Database"];
+    B --> F["NextAuth.js"];
+    F --> G["Authentication Provider (e.g., Google, GitHub)"];
+    C --> F;
 ```
 
-### Detailed Explanation
+## 🚀 Getting Started
 
-1.  **Client (Frontend)**:
-    *   The frontend is a Single Page Application (SPA) built with React.js.
-    *   It's responsible for rendering the user interface, handling user interactions, and displaying portfolio content.
-    *   It communicates with the backend API using `axios` to fetch data (projects, skills) and send data (contact messages).
-    *   React Router DOM manages client-side navigation, providing a smooth user experience.
-    *   Styling is handled using Sass, allowing for modular and maintainable CSS.
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-2.  **Server (Backend API)**:
-    *   The backend is a RESTful API developed with Node.js and the Express.js framework.
-    *   It acts as the intermediary between the client and the database.
-    *   **Routes**: Defines API endpoints (e.g., `/api/projects`, `/api/skills`, `/api/contact`) that the client can access.
-    *   **Controllers**: Contains the business logic for handling incoming requests, interacting with the database, and preparing responses.
-    *   **Models**: Utilizes Mongoose to define schemas for MongoDB collections (e.g., `Project`, `Skill`, `Contact`), providing an object-oriented interface for database operations.
-    *   **Security**: Implements CORS middleware to manage cross-origin requests, ensuring secure communication between the client and server.
-    *   **Email Service**: Integrates Nodemailer to handle sending contact form submissions as emails.
+### ⚙️ Prerequisites
 
-3.  **Database**:
-    *   MongoDB is used as the NoSQL database to store all application data.
-    *   It stores collections for `projects`, `skills`, and `contact messages`.
-    *   Mongoose provides a robust way to define data structures and interact with MongoDB from the Node.js backend.
+Before you begin, ensure you have the following installed:
 
-4.  **Communication Flow**:
-    *   When a user interacts with the React frontend (e.g., navigates to the projects page, submits a contact form), the React application sends an HTTP request to the Express.js backend.
-    *   The Express.js server receives the request, processes it (e.g., queries the MongoDB database via Mongoose, sends an email via Nodemailer), and sends back an HTTP response, typically in JSON format.
-    *   The React frontend then receives this JSON data and updates the UI accordingly.
+*   **Node.js**: [v18.x or higher](https://nodejs.org/en/download/)
+*   **npm** or **Yarn**: (npm comes with Node.js, Yarn can be installed globally)
+    *   `npm install -g yarn` (if you prefer Yarn)
+*   **PostgreSQL**: A running PostgreSQL instance. You can install it locally, use Docker, or a cloud-hosted service.
 
-This decoupled architecture allows for independent development and scaling of the frontend and backend components, enhancing flexibility and maintainability.
+### 📦 Installation
 
----
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Can-Ozan/Devportfolio.git
+    cd Devportfolio
+    ```
 
-## Getting Started 🚀
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-To get a local copy up and running, follow these simple steps. You can choose between a standard local installation or a Dockerized setup.
+3.  **Set up environment variables:**
+    Create a `.env` file in the root of the project based on `.env.example`.
 
-### Prerequisites
+    ```ini
+    # .env
+    DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
+    NEXTAUTH_SECRET="YOUR_NEXTAUTH_SECRET"
+    NEXTAUTH_URL="http://localhost:3000" # Or your deployment URL
 
-Ensure you have the following installed on your system:
+    # Example for Google Provider
+    GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
+    GOOGLE_CLIENT_SECRET="YOUR_GOOGLE_CLIENT_SECRET"
 
-*   [Node.js](https://nodejs.org/en/download/) (LTS version recommended)
-*   [npm](https://www.npmjs.com/get-npm) (comes with Node.js) or [Yarn](https://yarnpkg.com/getting-started/install)
-*   [MongoDB](https://www.mongodb.com/try/download/community) (local installation or a cloud service like MongoDB Atlas)
-*   [Git](https://git-scm.com/downloads)
+    # Example for GitHub Provider
+    GITHUB_ID="YOUR_GITHUB_ID"
+    GITHUB_SECRET="YOUR_GITHUB_SECRET"
+    ```
+    *   `DATABASE_URL`: Connection string for your PostgreSQL database.
+    *   `NEXTAUTH_SECRET`: A long, random string used to sign and encrypt session tokens. Generate one using `openssl rand -base64 32`.
+    *   `NEXTAUTH_URL`: The base URL of your application.
+    *   `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GITHUB_ID`, `GITHUB_SECRET`: Obtain these from your respective OAuth providers if you plan to use them for authentication.
 
-### Local Installation
+4.  **Database Setup:**
+    *   **Migrate the database schema:**
+        ```bash
+        npx prisma migrate dev --name init
+        ```
+        This command will apply the schema defined in `prisma/schema.prisma` to your PostgreSQL database.
+    *   **Seed the database (optional):**
+        If you have a `prisma/seed.ts` file, you can populate your database with initial data:
+        ```bash
+        npx prisma db seed
+        ```
 
-#### 1. Clone the Repository
+### ▶️ Running the Application
+
+To start the development server:
 
 ```bash
-git clone https://github.com/Can-Ozan/Devportfolio.git
-cd Devportfolio
+npm run dev
+# or
+yarn dev
 ```
 
-#### 2. Environment Variables
+The application will be accessible at `http://localhost:3000`.
 
-Create a `.env` file in both the `server/` and `client/` directories based on the examples below.
+## 🌐 REST API Endpoints
 
-**`server/.env` example:**
+The Devportfolio project exposes a set of RESTful API endpoints for managing portfolio content. These endpoints are built using Next.js API Routes and interact with the PostgreSQL database via Prisma.
 
-```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/devportfolio # Or your MongoDB Atlas URI
-EMAIL_USER=your_email@example.com
-EMAIL_PASS=your_email_password # Or app-specific password for Gmail/Outlook
-CLIENT_URL=http://localhost:3000
+| Method | Endpoint                       | Description                                         | Authentication |
+| :----- | :----------------------------- | :-------------------------------------------------- | :------------- |
+| `GET`  | `/api/auth/session`            | Retrieves the current user session.                 | Optional       |
+| `POST` | `/api/auth/signin`             | Initiates the sign-in process.                      | No             |
+| `GET`  | `/api/projects`                | Fetches all projects.                               | No             |
+| `POST` | `/api/projects`                | Creates a new project.                              | Required       |
+| `GET`  | `/api/projects/:id`            | Fetches a single project by ID.                     | No             |
+| `PUT`  | `/api/projects/:id`            | Updates an existing project by ID.                  | Required       |
+| `DELETE` | `/api/projects/:id`          | Deletes a project by ID.                            | Required       |
+| `GET`  | `/api/skills`                  | Fetches all skills.                                 | No             |
+| `POST` | `/api/skills`                  | Creates a new skill.                                | Required       |
+| `GET`  | `/api/skills/:id`              | Fetches a single skill by ID.                       | No             |
+| `PUT`  | `/api/skills/:id`              | Updates an existing skill by ID.                    | Required       |
+| `DELETE` | `/api/skills/:id`            | Deletes a skill by ID.                              | Required       |
+| `GET`  | `/api/experience`              | Fetches all experience entries.                     | No             |
+| `POST` | `/api/experience`              | Creates a new experience entry.                     | Required       |
+| `GET`  | `/api/experience/:id`          | Fetches a single experience entry by ID.            | No             |
+| `PUT`  | `/api/experience/:id`          | Updates an existing experience entry by ID.         | Required       |
+| `DELETE` | `/api/experience/:id`        | Deletes an experience entry by ID.                  | Required       |
+
+*Note: Endpoints requiring authentication are typically used by the portfolio owner to manage content via an administrative interface.*
+
+## 📂 Project Structure
+
+The project follows a standard Next.js App Router structure, enhanced with clear separation of concerns:
+
+```
+.
+├── app/                      # Next.js App Router root
+│   ├── api/                  # API Routes (backend)
+│   │   ├── auth/             # NextAuth.js authentication routes
+│   │   ├── experience/       # API for experience entries
+│   │   ├── projects/         # API for projects
+│   │   └── skills/           # API for skills
+│   ├── (auth)/               # Authentication related pages (e.g., sign-in)
+│   ├── (dashboard)/          # Protected routes for content management (e.g., admin panel)
+│   ├── globals.css           # Global CSS styles
+│   ├── layout.tsx            # Root layout for the application
+│   └── page.tsx              # Root page component
+├── components/               # Reusable React components
+│   ├── ui/                   # Shadcn/ui or similar UI components
+│   └── shared/               # Application-specific shared components
+├── lib/                      # Utility functions and configurations
+│   ├── auth.ts               # NextAuth.js configuration
+│   ├── db.ts                 # Prisma client instance
+│   └── utils.ts              # General utility functions
+├── public/                   # Static assets (images, fonts, etc.)
+├── prisma/                   # Prisma schema and migrations
+│   ├── migrations/           # Database migration files
+│   └── schema.prisma         # Prisma data model definition
+├── types/                    # TypeScript custom types and interfaces
+├── .env.example              # Example environment variables
+├── next.config.js            # Next.js configuration
+├── package.json              # Project dependencies and scripts
+├── tailwind.config.ts        # Tailwind CSS configuration
+├── tsconfig.json             # TypeScript configuration
+└── README.md                 # Project README file
 ```
 
-**`client/.env` example:**
+## 🤝 Contributing
 
-```env
-REACT_APP_SERVER_URL=http://localhost:5000/api
-```
+We welcome contributions to the Devportfolio project! If you have suggestions for improvements, new features, or bug fixes, please follow these guidelines.
 
-#### 3. Backend Setup
+1.  **Fork the repository:** Click the "Fork" button at the top right of this page.
+2.  **Clone your forked repository:**
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/Devportfolio.git
+    cd Devportfolio
+    ```
+3.  **Create a new branch:**
+    ```bash
+    git checkout -b feature/your-feature-name
+    # or
+    git checkout -b bugfix/issue-description
+    ```
+4.  **Make your changes:** Implement your feature or fix the bug.
+5.  **Commit your changes:** Write clear and concise commit messages.
+    ```bash
+    git commit -m "feat: Add new project filtering option"
+    # or
+    git commit -m "fix: Resolve database connection error"
+    ```
+6.  **Push to your branch:**
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+7.  **Open a Pull Request:** Go to the original repository on GitHub and open a new Pull Request from your forked repository. Provide a detailed description of your changes.
 
-Navigate to the `server` directory, install dependencies, and start the server.
+### Reporting Bugs
 
-```bash
-cd server
-npm install # or yarn install
-npm start   # or yarn start
-```
+If you encounter any bugs, please open an issue on GitHub and provide:
 
-The backend server will typically run on `http://localhost:5000`.
+*   A clear and concise description of the bug.
+*   Steps to reproduce the behavior.
+*   Expected behavior.
+*   Screenshots or error messages, if applicable.
+*   Your environment details (OS, Node.js version, browser).
 
-#### 4. Frontend Setup
+### Feature Requests
 
-Open a new terminal, navigate to the `client` directory, install dependencies, and start the React development server.
+For new features or enhancements, please open an issue on GitHub and describe:
 
-```bash
-cd client
-npm install # or yarn install
-npm start   # or yarn start
-```
+*   The proposed feature.
+*   Why it would be beneficial to the project.
+*   Any potential design considerations.
 
-The frontend application will typically run on `http://localhost:3000`.
+## 📄 License
 
----
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### Docker Installation (Recommended) 🐳
-
-For a more consistent and isolated development/production environment, you can containerize the application using Docker.
-
-#### 1. Docker Prerequisites
-
-*   [Docker Desktop](https://www.docker.com/products/docker-desktop/) (includes Docker Engine and Docker Compose)
-
-#### 2. Create Dockerfiles
-
-Create a `Dockerfile` for the client and server applications in their respective directories.
-
-**`client/Dockerfile`:**
-
-```dockerfile
-# Stage 1: Build the React application
-FROM node:18-alpine AS build
-WORKDIR /app
-COPY package.json ./
-COPY yarn.lock ./
-RUN yarn install --frozen-lockfile
-COPY . ./
-RUN yarn build
-
-# Stage 2: Serve the React application with Nginx
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-**`server/Dockerfile`:**
-
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package.json ./
-COPY yarn.lock ./
-RUN yarn install --frozen-lockfile
-COPY . ./
-EXPOSE 5000
-CMD ["node", "index.js"]
-```
-
-#### 3. Create `docker-compose.yml`
-
-Create a `docker-compose.yml` file in the root directory of your project (`Devportfolio/`). This file will define and link the services (client, server, database).
-
-**`docker-compose.yml`:**
-
-```yaml
-version: '3.8'
-
-services:
-  mongodb:
-    image: mongo:latest
-    container_name: devportfolio-mongodb
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-    networks:
-      - devportfolio-network
-
-  server:
-    build: ./server
-    container_name: devportfolio-server
-    environment:
-      # Ensure these match your server/.env, but are passed to Docker
-      PORT: 5000
-      MONGO_URI: mongodb://mongodb:27017/devportfolio # 'mongodb' is the service name
-      EMAIL_USER: your_email@example.com
-      EMAIL_PASS: your_email_password
-      CLIENT_URL: http://localhost:3000 # Or http://client:80 if accessing via Docker network
-    ports:
-      - "5000:5000"
-    depends_on:
-      - mongodb
-    networks:
-      - devportfolio-network
-    # Optional: Mount source code for live reloads during development
-    # volumes:
-    #   - ./server:/app
-    #   - /app/node_modules
-
-  client:
-    build: ./client
-    container_name: devportfolio-client
-    environment:
-      # Ensure these match your client/.env, but are passed to Docker
-      REACT_APP_SERVER_URL: http://server:5000/api # 'server' is the service name
-    ports:
-      - "3000:80" # Map host port 3000 to container's port 80 (Nginx default)
-    depends_on:
-      - server
-    networks:
-      - devportfolio-network
-    # Optional: Mount source code for live reloads during development
-    # volumes:
-    #   - ./client:/app
-    #   - /app/node_modules
-
-volumes:
-  mongodb_data:
-
-networks:
-  devportfolio-network:
-    driver: bridge
-```
-
-**Important Notes for Docker Environment Variables:**
-
-*   For `MONGO_URI` in `server`'s `docker-compose.yml`, use `mongodb://mongodb:27017/devportfolio`. `mongodb` refers to the service name defined in `docker-compose.yml`, allowing containers to communicate by service name within the Docker network.
-*   For `REACT_APP_SERVER_URL` in `client`'s `docker-compose.yml`, use `http://server:5000/api`. `server` refers to the service name of your backend.
-*   Remember to replace `your_email@example.com` and `your_email_password` with your actual email credentials.
-
-#### 4. Build and Run with Docker Compose
-
-From the root directory of your project (`Devportfolio/`), run the following commands:
-
-```bash
-docker-compose build
-docker-compose up -d
-```
-
-*   `docker-compose build`: This command builds the Docker images for your client and server services based on their respective `Dockerfile`s.
-*   `docker-compose up -d`: This command starts all the services defined in your `docker-compose.yml` in detached mode (in the background).
-
-Once the containers are up, the frontend will be accessible at `http://localhost:3000` and the backend API at `http://localhost:5000/api`.
-
-To stop and remove the containers:
-
-```bash
-docker-compose down
-```
-
----
-
-## REST API Endpoints 🌐
-
-The backend provides the following RESTful API endpoints:
-
-| Method | Endpoint             | Description                                   | Request Body (JSON)                                       | Response (JSON)                                                              |
-| :----- | :------------------- | :-------------------------------------------- | :-------------------------------------------------------- | :--------------------------------------------------------------------------- |
-| `GET`  | `/api/projects`      | Retrieve all portfolio projects.              | `N/A`                                                     | `[{ _id, title, description, imageUrl, projectLink, codeLink, tags }]`       |
-| `GET`  | `/api/skills`        | Retrieve all skills.                          | `N/A`                                                     | `[{ _id, name, icon, category }]`                                            |
-| `POST` | `/api/contact`       | Submit a contact message.                     | `{ name: "...", email: "...", message: "..." }`           | `{ message: "Message sent successfully!" }` or `{ error: "..." }`            |
-
----
-
-## Usage 💡
-
-After successfully setting up and running the application (either locally or with Docker):
-
-1.  Open your web browser and navigate to `http://localhost:3000`.
-2.  Explore the different sections of the portfolio: Home, About, Projects, Skills, Contact.
-3.  Use the contact form to send a test message. Check the backend server logs for confirmation or your configured email inbox.
-4.  To add or modify projects/skills, you would typically interact directly with the MongoDB database (e.g., using MongoDB Compass or a similar tool) or extend the backend with admin-specific routes.
-
----
-
-## Contributing 🤝
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also open an issue with the tag "enhancement".
-
-1.  **Fork** the Project.
-2.  **Create** your Feature Branch (`git checkout -b feature/AmazingFeature`).
-3.  **Commit** your Changes (`git commit -m 'Add some AmazingFeature'`).
-4.  **Push** to the Branch (`git push origin feature/AmazingFeature`).
-5.  **Open** a Pull Request.
-
----
-
-## License 📄
-
-Distributed under the MIT License. See `LICENSE` for more information. (Note: A `LICENSE` file is typically included in the root of the repository. If not present, it's recommended to add one.)
-
----
-
-## Contact 📧
+## 📧 Contact
 
 Yusuf Can Ozan
-
-Project Link: [https://github.com/Can-Ozan/Devportfolio](https://github.com/Can-Ozan/Devportfolio)
